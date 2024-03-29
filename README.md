@@ -1,49 +1,45 @@
-Overview
-========
+# Airflow Deploy Football Leagues
 
-Welcome to Astronomer! This project was generated after you ran 'astro dev init' using the Astronomer CLI. This readme describes the contents of the project, as well as how to run Apache Airflow on your local machine.
+## Requisitos previos
+- **Docker:** Se requiere la instalación de Docker. En caso de no tenerlo instalado, se puede habilitar WSL para Ubuntu siguiendo las instrucciones correspondientes.
+- **CLI de ASTRO en Linux:** Es necesario instalar la CLI de ASTRO en Linux. Las instrucciones detalladas se encuentran [aquí](https://docs.astronomer.io/astro/cli/install-cli).
+- **Inicialización del proyecto:** Iniciar un proyecto con la versión 6.0.3 utilizando los siguientes comandos:
 
-Project Contents
-================
 
-Your Astro project contains the following files and folders:
+## Configuración inicial
+- Utilizar `localhost:8080` para acceder a la CLI de Airflow.
+- En caso de errores, verificar los LOGS del webserver de Docker. Se puede borrar la imagen en caso de error utilizando el comando de fuerza bruta de Docker para borrar todas las imágenes.
 
-- dags: This folder contains the Python files for your Airflow DAGs. By default, this directory includes two example DAGs:
-    - `example_dag_basic`: This DAG shows a simple ETL data pipeline example with three TaskFlow API tasks that run daily.
-    - `example_dag_advanced`: This advanced DAG showcases a variety of Airflow features like branching, Jinja templates, task groups and several Airflow operators.
-- Dockerfile: This file contains a versioned Astro Runtime Docker image that provides a differentiated Airflow experience. If you want to execute other commands or overrides at runtime, specify them here.
-- include: This folder contains any additional files that you want to include as part of your project. It is empty by default.
-- packages.txt: Install OS-level packages needed for your project by adding them to this file. It is empty by default.
-- requirements.txt: Install Python packages needed for your project by adding them to this file. It is empty by default.
-- plugins: Add custom or community plugins for your project to this file. It is empty by default.
-- airflow_settings.yaml: Use this local-only file to specify Airflow Connections, Variables, and Pools instead of entering them in the Airflow UI as you develop DAGs in this project.
+## Acceso a la interfaz de usuario de Airflow
+- Utilizar las credenciales `ADMIN` para el usuario y la contraseña.
 
-Deploy Your Project Locally
-===========================
+## Extracción y limpieza de datos
+- Extraer datos de la URL de las ligas de fútbol y realizar limpieza de los datos utilizando Jupyter Notebook o instalando los paquetes del archivo `requirements.txt`.
+- Utilizar el archivo `football_leagues.ipynb`.
 
-1. Start Airflow on your local machine by running 'astro dev start'.
+## Conexión a Snowflake
+- Crear una cuenta en Snowflake.
+- Crear un worksheet SQL.
+- Ejecutar las queries del archivo `set_up_snow_queries.sql` en el siguiente orden:
+1. Crear la base de datos.
+2. Crear las tablas.
+3. Ejecutar los siguientes queries como stage, etc.
+- Refrescar las bases de datos para asegurarse de que aparezcan correctamente.
 
-This command will spin up 4 Docker containers on your machine, each for a different Airflow component:
+## Configuración de conexión en Snowflake
+- En la UI de Snowflake, ir a "Connections".
+- Configurar la conexión con la siguiente información:
+- URL: `https://{account_id}.{region_name}.snowflakecomputing.com` (por ejemplo, `https://gjb49692.us-east-1.snowflakecomputing.com`).
+- Realizar el test de conexión y guardar los cambios.
 
-- Postgres: Airflow's Metadata Database
-- Webserver: The Airflow component responsible for rendering the Airflow UI
-- Scheduler: The Airflow component responsible for monitoring and triggering tasks
-- Triggerer: The Airflow component responsible for triggering deferred tasks
-
-2. Verify that all 4 Docker containers were created by running 'docker ps'.
-
-Note: Running 'astro dev start' will start your project with the Airflow Webserver exposed at port 8080 and Postgres exposed at port 5432. If you already have either of those ports allocated, you can either [stop your existing Docker containers or change the port](https://docs.astronomer.io/astro/test-and-troubleshoot-locally#ports-are-not-available).
-
-3. Access the Airflow UI for your local Airflow project. To do so, go to http://localhost:8080/ and log in with 'admin' for both your Username and Password.
-
-You should also be able to access your Postgres Database at 'localhost:5432/postgres'.
-
-Deploy Your Project to Astronomer
-=================================
-
-If you have an Astronomer account, pushing code to a Deployment on Astronomer is simple. For deploying instructions, refer to Astronomer documentation: https://docs.astronomer.io/cloud/deploy-code/
-
-Contact
-=======
-
-The Astronomer CLI is maintained with love by the Astronomer team. To report a bug or suggest a change, reach out to our support.
+## Configuración de variables de entorno
+- En la sección de administración de Airflow, configurar las siguientes variables de entorno:
+```json
+{
+  "path_file": "/usr/local/airflow/premier_positions.csv",
+  "stage": "demo_stage",
+  "table": "football_leagues",
+  "DWH": "normal_wh",
+  "DB": "leagues",
+  "ROLE": "accountadmin"
+}
