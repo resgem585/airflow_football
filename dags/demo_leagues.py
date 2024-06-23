@@ -21,8 +21,8 @@ from datetime import datetime
 
 
 
-default_arguments = {   'owner': 'resgem',
-                        'email': 'resgem@hotmail.com',
+default_arguments = {   'owner': 'willie',
+                        'email': 'elchurroemprendedor@gmail.com',
                         'retries':1 ,
                         'retry_delay':timedelta(minutes=5)}
 
