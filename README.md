@@ -43,3 +43,7 @@
   "DB": "leagues",
   "ROLE": "accountadmin"
 }
+
+## Para el tutorial paso a paso aqui les dejo la liga
+
+https://drive.google.com/file/d/1frxcvJcs2D6ugMCEi4_M-8OWd3vQFe8l/view?usp=drive_link
