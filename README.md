@@ -1,5 +1,10 @@
 # Airflow Deploy Football Leagues
 
+## Para el tutorial paso a paso les dejo el link del pdf
+
+https://drive.google.com/file/d/1frxcvJcs2D6ugMCEi4_M-8OWd3vQFe8l/view?usp=drive_link
+
+
 ## Requisitos previos
 - **Docker:** Se requiere la instalación de Docker. En caso de no tenerlo instalado, se puede habilitar WSL para Ubuntu siguiendo las instrucciones correspondientes.
 - **CLI de ASTRO en Linux:** Es necesario instalar la CLI de ASTRO en Linux. Las instrucciones detalladas se encuentran [aquí](https://docs.astronomer.io/astro/cli/install-cli).
@@ -44,6 +49,3 @@
   "ROLE": "accountadmin"
 }
 
-## Para el tutorial paso a paso aqui les dejo la liga
-
-https://drive.google.com/file/d/1frxcvJcs2D6ugMCEi4_M-8OWd3vQFe8l/view?usp=drive_link
